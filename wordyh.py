@@ -7,7 +7,7 @@ def answer(question):
     result = 0
     op = None
 
-    for word in words:
+    for i,word in words:
         if word == 'what' or word == 'is' or word == '?' or word == 'by':
             continue
         if word.isdigit() or (word[0] == '-' and word[1:].isdigit()):
@@ -22,7 +22,9 @@ def answer(question):
             else:
                 result = int(word)
         elif word in ["plus", "minus", "multiplied", "divided"]:
-         op = word
+            if i > 0 and words[i - 1] in ["plus", "minus", "multiplied", "divided"]:
+                raise ValueError("syntax error - consecutive operations")
+            op = word
         else:
             raise ValueError("syntax error")
 
